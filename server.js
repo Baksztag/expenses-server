@@ -13,19 +13,16 @@ app.use(cors());
 
 const MongoClient = require('mongodb').MongoClient;
 const ObjectId = require('mongodb').ObjectId;
-const env = require('node-env-file');
-env(__dirname + '/.env');
-db_user = process.env.db_user;
-db_password = process.env.db_password;
 var db;
-const db_link = 'mongodb://' + db_user + ':' + db_password + '@ds161041.mlab.com:61041/simple_crud_db';
-MongoClient.connect(db_link, function(err, database)  {
+MongoClient.connect(process.env.MONGODB_URI, function(err, database)  {
     if (err) {
         return console.log(err);
     }
     db = database;
-    app.listen(3001, function() {
-        console.log('listening on 3001')
+    app.listen(process.env.PORT || 8080, function() {
+        const port = server.address().port;
+        console.log("App now running on port", port);
+        // console.log('listening on 3001')
     })
 });
 
