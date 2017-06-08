@@ -59,3 +59,12 @@ app.post('/v1/expenses', (req, res) => {
         res.send({error: e})
     }
 });
+
+app.delete('/v1/expenses/:id', (req, res) => {
+    try {
+        db.collection('expenses').removeOne({"_id": ObjectId(req.params.id)});
+        res.send({status: "ok"})
+    } catch (e) {
+        res.send({error: e})
+    }
+});
