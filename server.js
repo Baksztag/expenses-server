@@ -28,3 +28,37 @@ MongoClient.connect(db_link, function(err, database)  {
         console.log('listening on 3001')
     })
 });
+
+
+app.get('/', (req, res) => {
+    res.send({status: 'ok'})
+});
+
+app.get('/v1/expenses', (req, res) => {
+    db.collection('expenses').find().toArray((err, result) => {
+        if (err) {
+            res.send({error: err})
+        }
+        res.send(result)
+    });
+});
+
+app.get('/v1/expenses/:id', (req, res) => {
+    db.collection('expenses').find(ObjectId(req.params.id)).toArray((err, result) => {
+        if (err) {
+            res.send({error: err})
+        }
+        console.log(result[0]);
+        res.send(result[0])
+    });
+});
+
+app.post('/v1/expenses', (req, res) => {
+    console.log(req.body);
+    try {
+        db.collection('expenses').insertOne(req.body)
+        res.send({status: "ok"})
+    } catch (e) {
+        res.send({error: e})
+    }
+});
