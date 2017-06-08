@@ -53,7 +53,7 @@ app.get('/v1/expenses/:id', (req, res) => {
 app.post('/v1/expenses', (req, res) => {
     console.log(req.body);
     try {
-        db.collection('expenses').insertOne(req.body)
+        db.collection('expenses').insertOne(req.body);
         res.send({status: "ok"})
     } catch (e) {
         res.send({error: e})
